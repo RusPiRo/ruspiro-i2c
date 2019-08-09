@@ -7,10 +7,49 @@
 #![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.1.0")]
 #![no_std]
 
-//! # I²C bus interface
+//! # Raspberry Pi I²C bus interface
 //! 
+//! Simple access to the I²C bus available on the Raspberry Pi. When the I²C bus is used this reserves the GPIO pins 2
+//! and 3 for exclusive use by the bus.
 //! 
+//! # Usage
 //! 
+//! ```
+//! use ruspiro_i2c::I2C;
+//! use ruspiro_console::*;
+//! 
+//! fn demo() {
+//!     I2C.take_for(|i2c| {
+//!         if i2c.initialize(250_000_000, true).is_ok() {
+//!             println!("scan I2C devices connected to RPi");
+//!             i2c.scan();
+//!         }
+//!     });
+//! }
+//! ```
+//! 
+//! To work with a device connected to the I²C bus it first must be retrieved from
+//! the I2C interface (it will internally check whether this device is really connected).
+//! Then this device could be used to pass request to it using the I2C API.
+//! 
+//! ```
+//! use ruspiro_i2c::{I2C, I2cDevice};
+//! 
+//! fn demo() {
+//!     let device = I2C.take_for(|i2c| i2c.get_device(0x68))
+//!                     .expect("no I2C device connected to 0x68");
+//! 
+//!     I2C.take_for(|i2c| {
+//!         // configure the device...
+//!         // as arbitary example pass value 0x1 to the 8bit register 0x10
+//!         i2c.write_register_u8(device, 0x10, 0x1);
+//!     })
+//! }
+//! ```
+//! 
+#[cfg(feature = "with_allocator")]
+extern crate ruspiro_allocator;
+
 extern crate alloc;
 use alloc::vec::Vec;
 use ruspiro_singleton::Singleton;
@@ -18,7 +57,17 @@ use ruspiro_console::*;
 
 mod interface;
 
-/// static singleton accessor for the I²C bus peripheral
+/// Static singleton accessor for the I²C bus peripheral
+/// To use the contained i2c API in a safe way use the ``take_for``
+/// function passing a clousure that can safely use the resource
+/// ```
+/// # fn demo() {
+/// I2C.take_for(|i2c| {
+///     // safe access here e.g. to initialize
+///     i2c.initialize(250_000_000, true).expect("unable to init I2C");
+/// });
+/// # }
+/// ``` 
 pub static I2C: Singleton<I2cImpl> = Singleton::new(I2cImpl::new());
 
 /// I²C peripheral representation
@@ -62,8 +111,8 @@ impl I2cImpl {
     /// device is connected but it's address is not properly documented.
     pub fn scan(&self) {
         let devices = interface::scan_devices();
-        for dev in devices {
-            info!("device detected at {:2X}", dev);
+        for d in devices {
+            info!("device detected at {:2X}", d);
         };
     }
 
@@ -72,8 +121,8 @@ impl I2cImpl {
     /// TODO: ensure there will not be more then 1 request for a device on the same address
     pub fn get_device(&self, addr: u8) -> I2cResult<I2cDevice> {
         interface::check_device(addr)
-            .map(|_| {
-                I2cDevice::new(addr as u32)
+            .and_then(|_| {
+                Ok(I2cDevice::new(addr as u32))
             })
     }
 

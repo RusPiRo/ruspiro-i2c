@@ -2,7 +2,7 @@
 name = "ruspiro-i2c"
 authors = ["Andre Borrmann <pspwizard@gmx.de>"]
 version = "0.1.0" # remember to update html_root_url
-description = "I²C interface implementation"
+description = "Raspberry Pi - I²C bus interface implementation"
 license = "Apache-2.0"
 repository = "https://github.com/RusPiRo/ruspiro-i2c/tree/v0.1.0"
 documentation = "https://docs.rs/ruspiro-i2c/0.1.0"
@@ -13,7 +13,6 @@ edition = "2018"
 
 [badges]
 travis-ci = { repository = "RusPiRo/ruspiro-i2c", branch = "master" }
-maintenance = { status = "actively-developed" }
 
 [lib]
 
@@ -23,7 +22,9 @@ ruspiro-register = "0.1.1"
 ruspiro-gpio = "0.1.0"
 ruspiro-timer = "0.1.0"
 ruspiro-console = "0.1.1"
+ruspiro-allocator = { version = "0.1.1", optional = true }
 
 [features]
 default = ["ruspiro_pi3"]
 ruspiro_pi3 = ["ruspiro-timer/ruspiro_pi3"]
+with_allocator = ["ruspiro-allocator"]
