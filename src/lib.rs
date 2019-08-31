@@ -4,7 +4,7 @@
  * Author: André Borrmann 
  * License: Apache License 2.0
  **********************************************************************************************************************/
-#![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.1.0")]
+#![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.2.0")]
 #![no_std]
 
 //! # Raspberry Pi I²C bus interface
@@ -46,7 +46,12 @@
 //!     })
 //! }
 //! ```
+//! # Features
 //! 
+//! - ``ruspiro_pi3`` is active by default and ensures the proper MMIO base address is used for Raspberry Pi 3
+//! - ``with_allocator`` activates usage of the ``ruspiro_allocator`` along with this crate.
+//! 
+
 #[cfg(feature = "with_allocator")]
 extern crate ruspiro_allocator;
 
