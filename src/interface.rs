@@ -12,7 +12,7 @@
 extern crate alloc;
 use alloc::{vec, vec::Vec};
 
-use ruspiro_register::{define_registers, RegisterFieldValue};
+use ruspiro_register::{define_mmio_register, RegisterFieldValue};
 use ruspiro_timer as timer;
 use ruspiro_gpio::GPIO;
 use ruspiro_console::*;
@@ -304,8 +304,8 @@ fn write_fifo(data: &[u8]) {
 }
 
 // I2C register definitions
-define_registers! [
-    I2C_REG_C:    ReadWrite<u32> @ I2C_BASE + 0x00 => [ // control register
+define_mmio_register! [
+    I2C_REG_C<ReadWrite<u32>@(I2C_BASE + 0x00)> { // control register
         ENABLE     OFFSET(15),  // 1 I²C bus enabled
         IRQ_RX     OFFSET(10),  // 1 Receive interrupt enabled
         IRQ_TX     OFFSET(9),   // 1 Transmit interrupt enabled
@@ -313,8 +313,8 @@ define_registers! [
         STARTTRANS OFFSET(7),   // 1 Start transfer
         CLEAR      OFFSET(4),   // 1 clear fifo buffer
         READWRITE  OFFSET(0)    // 1 Read / 0 Write operation
-    ],
-    I2C_REG_S:    ReadWrite<u32> @ I2C_BASE + 0x04 => [ // status register
+    },
+    I2C_REG_S<ReadWrite<u32>@(I2C_BASE + 0x04)> { // status register
         CLK_TIMEOUT  OFFSET(9), // 1 Slave has held the SCL signal longer than allowed high
         ACK_ERROR    OFFSET(8), // 1 Slave address acknowledge error
         RX_FULL      OFFSET(7), // 1 FIFO is full
@@ -325,13 +325,13 @@ define_registers! [
         TX_NEEDWRITE OFFSET(2), // 1 FIFO is less than full and needs writing to the FIFO
         TRANS_DONE   OFFSET(1), // 1 if transfer is complete
         TRANS_ACTIVE OFFSET(0)  // 1 if transfer is active
-    ],
-    I2C_REG_DLEN: ReadWrite<u32> @ I2C_BASE + 0x08 => [   // data len register
+    },
+    I2C_REG_DLEN<ReadWrite<u32>@(I2C_BASE + 0x08)> {   // data len register
         DATA OFFSET(0) BITS(16)
-    ],
-    I2C_REG_A:    ReadWrite<u32> @ I2C_BASE + 0x0C, // slave address register
-    I2C_REG_FIFO: ReadWrite<u32> @ I2C_BASE + 0x10, // FiFo data register
-    I2C_REG_CDIV: ReadWrite<u32> @ I2C_BASE + 0x14, // clock divisor
-    I2C_REG_DEL:  ReadWrite<u32> @ I2C_BASE + 0x18, // data delay
-    I2C_REG_CLKT: ReadWrite<u32> @ I2C_BASE + 0x1C  // clock stretch timeout
+    },
+    I2C_REG_A<ReadWrite<u32>@(I2C_BASE + 0x0C)>, // slave address register
+    I2C_REG_FIFO<ReadWrite<u32>@(I2C_BASE + 0x10)>, // FiFo data register
+    I2C_REG_CDIV<ReadWrite<u32>@(I2C_BASE + 0x14)>, // clock divisor
+    I2C_REG_DEL<ReadWrite<u32>@(I2C_BASE + 0x18)>, // data delay
+    I2C_REG_CLKT<ReadWrite<u32>@(I2C_BASE + 0x1C)>  // clock stretch timeout
 ];

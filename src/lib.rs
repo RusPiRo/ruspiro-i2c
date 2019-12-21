@@ -4,7 +4,7 @@
  * Author: André Borrmann 
  * License: Apache License 2.0
  **********************************************************************************************************************/
-#![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.2.0")]
+#![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.3.0")]
 #![no_std]
 
 //! # Raspberry Pi I²C bus interface
@@ -14,7 +14,7 @@
 //! 
 //! # Usage
 //! 
-//! ```
+//! ```no_run
 //! use ruspiro_i2c::I2C;
 //! use ruspiro_console::*;
 //! 
@@ -52,8 +52,8 @@
 //! - ``with_allocator`` activates usage of the ``ruspiro_allocator`` along with this crate.
 //! 
 
-#[cfg(feature = "with_allocator")]
-extern crate ruspiro_allocator;
+//#[cfg(feature = "with_allocator")]
+//extern crate ruspiro_allocator;
 
 extern crate alloc;
 use alloc::vec::Vec;
@@ -65,11 +65,11 @@ mod interface;
 /// Static singleton accessor for the I²C bus peripheral
 /// To use the contained i2c API in a safe way use the ``take_for``
 /// function passing a clousure that can safely use the resource
-/// ```
+/// ```no_run
 /// # fn demo() {
 /// I2C.take_for(|i2c| {
 ///     // safe access here e.g. to initialize
-///     i2c.initialize(250_000_000, true).expect("unable to init I2C");
+///     i2c.initialize(250_000_000, true).unwrap();
 /// });
 /// # }
 /// ``` 
