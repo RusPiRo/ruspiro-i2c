@@ -1,10 +1,8 @@
 # Changelog
 ## :carrot: v0.3.0
   - ### :bulb: Features
-    Very new features
-  - ### :detective: Fixes
-    Bug-fixes
+    Enable Aarch64 build target architecture
   - ### :wrench: Maintenance
-    Refactorings, tests
-  - ### :book: Documentation
-    Updates in documentation (inline, readme...)
+    Remove the I2CDevice structure until there is a better abstraction how a I2C device might be
+    encapsulated for use and respective device driver implementing crates
+  
