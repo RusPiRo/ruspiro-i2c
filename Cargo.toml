@@ -1,11 +1,11 @@
 [package]
 name = "ruspiro-i2c"
 authors = ["Andre Borrmann <pspwizard@gmx.de>"]
-version = "0.2.0" # remember to update html_root_url
+version = "0.3.0" # remember to update html_root_url
 description = "Raspberry Pi - I²C bus interface implementation"
 license = "Apache-2.0"
-repository = "https://github.com/RusPiRo/ruspiro-i2c"
-documentation = "https://docs.rs/ruspiro-i2c/0.2.0"
+repository = "https://github.com/RusPiRo/ruspiro-i2c/tree/v0.3.0"
+documentation = "https://docs.rs/ruspiro-i2c/0.3.0"
 readme = "README.md"
 keywords = ["RusPiRo", "baremetal", "raspberrypi", "i2c"]
 categories = ["no-std", "embedded"]
@@ -18,14 +18,14 @@ maintenance = { status = "actively-developed" }
 [lib]
 
 [dependencies]
-ruspiro-singleton = "0.2"
-ruspiro-register = "0.1"
-ruspiro-gpio = "0.2"
-ruspiro-timer = "0.1"
-ruspiro-console = "0.2"
-ruspiro-allocator = { version = "0.2.0", optional = true }
+ruspiro-singleton = "0.3"
+ruspiro-register = "0.3"
+ruspiro-gpio = "0.3"
+ruspiro-timer = "0.3"
 
 [features]
 default = ["ruspiro_pi3"]
-ruspiro_pi3 = ["ruspiro-timer/ruspiro_pi3", "ruspiro-gpio/ruspiro_pi3"]
-with_allocator = []
+ruspiro_pi3 = [
+    "ruspiro-timer/ruspiro_pi3",
+    "ruspiro-gpio/ruspiro_pi3"
+]
