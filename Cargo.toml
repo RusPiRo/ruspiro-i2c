@@ -18,14 +18,14 @@ maintenance = { status = "actively-developed" }
 [lib]
 
 [dependencies]
-ruspiro-singleton = { path = "../singleton", version = "0.3" }
-ruspiro-register = { path = "../register", version = "0.3" }
-ruspiro-gpio = { path = "../gpio", version = "0.3" }
-ruspiro-timer = { path = "../timer", version = "0.3" }
-ruspiro-console = { path = "../console", version = "0.3" }
-#ruspiro-allocator = { path = "../allocator", version = "0.3", optional = true }
+ruspiro-singleton = "0.3"
+ruspiro-register = "0.3"
+ruspiro-gpio = "0.3"
+ruspiro-timer = "0.3"
 
 [features]
 default = ["ruspiro_pi3"]
-ruspiro_pi3 = ["ruspiro-timer/ruspiro_pi3", "ruspiro-gpio/ruspiro_pi3"]
-#with_allocator = []
+ruspiro_pi3 = [
+    "ruspiro-timer/ruspiro_pi3",
+    "ruspiro-gpio/ruspiro_pi3"
+]
