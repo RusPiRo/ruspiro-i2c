@@ -29,19 +29,20 @@ pub(crate) fn initialize(core_speed: u32, fast_mode: bool) -> I2cResult<()> {
     // when I2C is about to be initialized reserve GPIO Pins 2 and 3
     // as the I2C bus pins with alt function 0
     GPIO.take_for(|gpio| {
-        gpio.get_pin(2).map(|pin| pin.to_alt_f0())?;
-        gpio.get_pin(3).map(|pin| pin.to_alt_f0())?;
+        let _ = gpio.get_pin(2).map(|pin| pin.into_alt_f0());
+        let _ = gpio.get_pin(3).map(|pin| pin.into_alt_f0());
         Ok(())
-    })?;
-    // both pin's configured, now setup the I2C speed and we are done
-    let clock_divisor = if fast_mode {
-        core_speed / 400_000
-    } else {
-        core_speed / 100_000
-    };
+    }).and_then(|_| {
+        // both pin's configured, now setup the I2C speed and we are done
+        let clock_divisor = if fast_mode {
+            core_speed / 400_000
+        } else {
+            core_speed / 100_000
+        };
 
-    I2C_REG_CDIV::Register.set(clock_divisor);
-    Ok(())
+        I2C_REG_CDIV::Register.set(clock_divisor);
+        Ok(())
+    })
 }
 
 /// Scan for I2C devices currently connected to the I2C bus. The scan will just try to get an acknowledge message
@@ -285,38 +286,38 @@ define_mmio_register!(
     I2C_REG_C<ReadWrite<u32>@(I2C_BASE + 0x00)> {
         // I²C bus enabled flag
         ENABLE     OFFSET(15) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ],
         // Receive interrupt flag
         IRQ_RX     OFFSET(10) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ],
         // Transmit interrupt flag
         IRQ_TX     OFFSET(9) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ],
         // Done interrupt flag
         IRQ_DONE   OFFSET(8) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ],
         // Start transfer flag
         STARTTRANS OFFSET(7) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ],
         // clear fifo buffer
         FIFO_CLR  OFFSET(4) [
-            CLEAR: 1,
-            KEEP: 0
+            CLEAR = 1,
+            KEEP = 0
         ],
         // Read / 0 Write operation
         READWRITE  OFFSET(0) [
-            READ: 1,
-            WRITE: 0
+            READ = 1,
+            WRITE = 0
         ]
     }
 );
@@ -325,44 +326,44 @@ define_mmio_register!(
     // status register
     I2C_REG_S<ReadWrite<u32>@(I2C_BASE + 0x04)> {
         CLK_TIMEOUT  OFFSET(9) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 Slave has held the SCL signal longer than allowed high
         ACK_ERROR    OFFSET(8) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 Slave address acknowledge error
         RX_FULL      OFFSET(7) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 FIFO is full
         TX_EMPTY     OFFSET(6) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 FIFO is empty
         RX_DATA      OFFSET(5) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 FIFO contains at least one byte
         TX_DATA      OFFSET(4) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 FIFO can accept data
         RX_NEEDREAD  OFFSET(3) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 FIFO is full and needs reading from the FIFO
         TX_NEEDWRITE OFFSET(2) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 FIFO is less than full and needs writing to the FIFO
         TRANS_DONE   OFFSET(1) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ], // 1 if transfer is complete
         TRANS_ACTIVE OFFSET(0) [
-            SET: 1,
-            CLEAR: 0
+            SET = 1,
+            CLEAR = 0
         ]  // 1 if transfer is active
     },
     // data len register

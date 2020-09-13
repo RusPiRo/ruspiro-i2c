@@ -4,7 +4,7 @@
  * Author: André Borrmann
  * License: Apache License 2.0
  **********************************************************************************************************************/
-#![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.3.0")]
+#![doc(html_root_url = "https://docs.rs/ruspiro-i2c/0.3.1")]
 #![cfg_attr(not(any(test, doctest)), no_std)]
 
 //! # Raspberry Pi I²C bus interface

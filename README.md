@@ -14,13 +14,16 @@ The I²C implementation requires an allocator to be build into the final binary.
 use the ``ruspiro-allocator`` with this crate.
 
 ## Usage
+
 To use the crate just add the following dependency to your ``Cargo.toml`` file:
+
 ```toml
 [dependencies]
 ruspiro-i2c = "0.3"
 ```
 
 Once done the access to the I²C bus interface is available in your rust files like so:
+
 ```rust
 use ruspiro_i2c::I2C;
 
@@ -58,4 +61,5 @@ fn demo() {
 ```
 
 ## License
+
 Licensed under Apache License, Version 2.0, ([LICENSE](LICENSE) or http://www.apache.org/licenses/LICENSE-2.0)
