@@ -1,4 +1,9 @@
 # Changelog
+## :banana: v0.3.1
+  - ### :wrench: Maintenance
+    - update dependent crate versions
+    - stabilize build with `cargo make`
+
 ## :carrot: v0.3.0
   - ### :bulb: Features
     Enable Aarch64 build target architecture
