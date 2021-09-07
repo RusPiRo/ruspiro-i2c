@@ -1,16 +1,16 @@
 [package]
 name = "ruspiro-i2c"
 authors = ["Andre Borrmann <pspwizard@gmx.de>"]
-version = "0.3.1" # remember to update html_root_url
+version = "0.4.0" # remember to update html_root_url
 description = "Raspberry Pi - I²C bus interface implementation"
 license = "Apache-2.0"
-repository = "https://github.com/RusPiRo/ruspiro-i2c/tree/v0.3.1"
-documentation = "https://docs.rs/ruspiro-i2c/0.3.1"
+repository = "https://github.com/RusPiRo/ruspiro-i2c/tree/v||VERSION||"
+documentation = "https://docs.rs/ruspiro-i2c/||VERSION||"
 readme = "README.md"
 keywords = ["RusPiRo", "baremetal", "raspberrypi", "i2c"]
 categories = ["no-std", "embedded"]
 edition = "2018"
-exclude = [".travis.yml", "Makefile.toml"]
+exclude = ["Makefile.toml", ".cargo/config.toml"]
 
 [badges]
 travis-ci = { repository = "RusPiRo/ruspiro-i2c", branch = "master" }
@@ -19,10 +19,10 @@ maintenance = { status = "actively-developed" }
 [lib]
 
 [dependencies]
-ruspiro-singleton = "0.3"
-ruspiro-register = "0.4"
-ruspiro-gpio = "0.4"
-ruspiro-timer = "0.4"
+ruspiro-singleton = "~0.4.3"
+ruspiro-mmio-register = "~0.1.3"
+ruspiro-gpio = "~0.4.3"
+ruspiro-timer = "~0.5.2"
 
 [features]
 default = ["ruspiro_pi3"]
@@ -32,7 +32,7 @@ ruspiro_pi3 = [
 ]
 
 [patch.crates-io]
-ruspiro-singleton = { git = "https://github.com/RusPiRo/ruspiro-singleton.git" }
-ruspiro-register = { git = "https://github.com/RusPiRo/ruspiro-register.git" }
-ruspiro-timer = { git = "https://github.com/RusPiRo/ruspiro-timer.git" }
-ruspiro-gpio = { git = "https://github.com/RusPiRo/ruspiro-gpio.git" }
+ruspiro-singleton = { git = "https://github.com/RusPiRo/ruspiro-singleton.git", branch = "development" }
+ruspiro-register = { git = "https://github.com/RusPiRo/ruspiro-register.git", branch = "development" }
+ruspiro-timer = { git = "https://github.com/RusPiRo/ruspiro-timer.git", branch = "development" }
+ruspiro-gpio = { git = "https://github.com/RusPiRo/ruspiro-gpio.git", branch = "development" }
